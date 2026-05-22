@@ -103,6 +103,7 @@ app.post('/api/produtos', async (req, res) => {
 });
 
 // 7. Criar pedido
+// 7. Criar pedido
 app.post('/api/pedidos', async (req, res) => {
     try {
         const {
@@ -112,14 +113,12 @@ app.post('/api/pedidos', async (req, res) => {
             total
         } = req.body;
 
-        // validação
         if (!cliente_nome || !cliente_endereco || !itens || !total) {
             return res.status(400).json({
-                erro: 'Dados do pedido incompletos.'
+                erro: 'Dados incompletos'
             });
         }
 
-        // salvar no Supabase
         const { data, error } = await supabase
             .from('pedidos')
             .insert([{
@@ -147,11 +146,10 @@ app.post('/api/pedidos', async (req, res) => {
         console.log(err);
 
         res.status(500).json({
-            erro: 'Erro interno do servidor'
+            erro: 'Erro interno'
         });
     }
 });
-
 // 5. Atualizar produto
 app.put('/api/produtos/:id', async (req, res) => {
     const { id } = req.params;
