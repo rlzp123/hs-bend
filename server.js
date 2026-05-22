@@ -28,11 +28,25 @@ app.use((req, res, next) => {
 
 // 1. Listar todos os produtos
 app.get('/api/produtos', async (req, res) => {
-    const { data, error } = await supabase
+
+    const { categoriaId } = req.query;
+
+    let query = supabase
         .from('produtos')
         .select('*');
 
-    if (error) return res.status(500).json({ error: error.message });
+    if (categoriaId) {
+        query = query.eq('categoria_id', categoriaId);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+        return res.status(500).json({
+            error: error.message
+        });
+    }
+
     res.json(data);
 });
 
